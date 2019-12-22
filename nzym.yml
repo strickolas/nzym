@@ -1,0 +1,3 @@
+"d c": "$(which docker) compose"
+"d v": "$(which docker) volume"
+"d i": "$(which docker) images"
