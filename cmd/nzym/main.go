@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"strings"
 
+	"github.com/strickolas/nzym"
 	"gopkg.in/yaml.v2"
 )
 
@@ -27,22 +27,6 @@ func main() {
 	}
 }
 
-func getConfig() map[string]string {
-	// Read contents of config file.
-	config, err := ioutil.ReadFile("../../nzym.yml")
-	if err != nil {
-		log.Fatalf("Unable to locate \"nzym.yml\".")
-	}
-
-	// Unmarshal the config file.
-	var nzymAlises map[string]string
-	err = yaml.Unmarshal([]byte(config), &nzymAlises)
-	if err != nil {
-		log.Fatalf("Unable to read \"nzym.yml\".")
-	}
-	return nzymAlises
-}
-
 func add(args []string) {
 	usage := `
 Usage:	nzym add nz a TO $(which nzym) add
@@ -53,12 +37,13 @@ Adds an Nzym Alias. Use single quotes to pass verbatim arguments to Nzym.`
 	if len(args) == 0 {
 		log.Fatalf(usage)
 	}
-
 	line := strings.Join(args, " ")
 	var alias, command string
+	nza := nzym.GetConfig()
+
 	if strings.Contains(line, "TO") {
 		args = strings.Split(line, "TO")
-		alias, command = args[0], args[1]
+		alias, command = clean(args[0]), clean(args[1])
 		if len(args) > 2 {
 			log.Fatalf(usage)
 		}
@@ -67,12 +52,31 @@ Adds an Nzym Alias. Use single quotes to pass verbatim arguments to Nzym.`
 		if len(args) > 2 {
 			log.Fatalf(usage)
 		}
-		alias, command = args[1], args[0]
+		alias, command = clean(args[1]), clean(args[0])
 	} else {
 		log.Fatalf(usage)
 	}
 
-	fmt.Println(alias, command)
+	if val, ok := nza[alias]; ok {
+		a := "nzym: alias already exists as \x1b[33m" + alias + " -> " + val + " \x1b[mOverwrite? (yes/no): "
+		if getConfirmation(a, a) {
+			nza[alias] = command
+
+			d, err := yaml.Marshal(&nza)
+			if err != nil {
+				log.Fatalf("nzym: %v", err)
+			}
+
+			err = writeStringToFile("../../nzym.yml", string(d))
+			if err != nil {
+				log.Fatalf("nzym: %v", err)
+			}
+
+			fmt.Println("nzym: alias written:", alias, "->", command)
+		}
+	} else {
+		fmt.Println(alias, command)
+	}
 }
 
 func rm(args []string) {

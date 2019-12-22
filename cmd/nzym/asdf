@@ -1,8 +1,0 @@
-asdf /home/strickolas
-
-Usage:	nzym add nz a -> $(which nzym) add
-        nzym add $(which nzym) <- nz a
-
-Add a Nzym Alias
-
-xyz
