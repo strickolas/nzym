@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
-	"log"
 	"os"
 	"regexp"
 	"strings"
@@ -13,23 +12,32 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-func getConfig() map[string]string {
+// Fatal prints s.
+func Fatal(s string) {
+	fmt.Println(s)
+	os.Exit(1)
+}
+
+// GetConfig returns the unmarshaled contents of config.yml
+func GetConfig() map[string]string {
 	// Read contents of config file.
-	config, err := ioutil.ReadFile("nzym.yml")
+	config, err := ioutil.ReadFile("../../nzym.yml")
 	if err != nil {
-		log.Fatalf("nzym: unable to locate \"nzym.yml\".")
+		Fatal("nzym: unable to locate \"nzym.yml\".")
 	}
 
 	// Unmarshal the config file.
 	var nzymAlises map[string]string
 	err = yaml.Unmarshal([]byte(config), &nzymAlises)
 	if err != nil {
-		log.Fatalf("nzym: unable to read \"nzym.yml\".")
+		Fatal("nzym: unable to read \"nzym.yml\".")
 	}
 	return nzymAlises
 }
 
-func writeStringToFile(filepath, s string) error {
+// WriteStringToFile writes the string s to file
+// located at filepath.
+func WriteStringToFile(filepath, s string) error {
 	fo, err := os.Create(filepath)
 	if err != nil {
 		return err
@@ -40,23 +48,25 @@ func writeStringToFile(filepath, s string) error {
 	if err != nil {
 		return err
 	}
-
 	return nil
 }
 
-func clean(s string) string {
+// Clean removes excessive whitespace.
+func Clean(s string) string {
 	space := regexp.MustCompile(`\s+`)
 	return strings.TrimSpace(space.ReplaceAllString(s, " "))
 }
 
-func getConfirmation(prompt, retry string) bool {
+// GetConfirmation tries 3 times to receive yes
+// or no for the given prompt.
+func GetConfirmation(prompt, retry string) bool {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Print(prompt)
 	for x := 0; x < 3; x++ {
 		input, _ := reader.ReadString('\n')
-		if clean(input) == "yes" {
+		if Clean(input) == "yes" {
 			return true
-		} else if clean(input) == "no" {
+		} else if Clean(input) == "no" {
 			return false
 		}
 		fmt.Printf(retry)
