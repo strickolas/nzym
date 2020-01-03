@@ -68,5 +68,5 @@ Adds an Nzym Alias. Use single quotes to pass verbatim arguments to Nzym.
 	if err != nil {
 		Fatal("nzym: " + err.Error())
 	}
-	fmt.Println("nzym: alias written:", alias, "->", command)
+	fmt.Println("nzym: Alias written:\x1b[33m", alias, "->", command, "\x1b[m")
 }

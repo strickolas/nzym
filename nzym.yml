@@ -1,3 +1,6 @@
-d c: docker container ls
-d i: $(which docker) images
-d v: $(which docker) volume
+dc: docker container ls
+di: $(which docker) images
+dv: $(which docker) volume
+py: python
+rao: pip3 list
+test: ls
