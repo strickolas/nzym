@@ -20,28 +20,22 @@ func main() {
 	} else if args[0] == "ls" {
 		ls(args[1:])
 	} else {
-		help()
+		nzym.Call(args)
 	}
 }
 
-func rm(args []string) {
+func rm(args []string) {}
 
-}
+func mv(args []string) {}
 
-func mv(args []string) {
-
-}
-
-func ls(args []string) {
-
-}
+func ls(args []string) {}
 
 func help() {
 	fmt.Println(
 		`
 Usage:	nzym COMMAND
 
-A command line tool that makes it easy to manage scripts!
+A command line tool that makes it easy to digest scripts!
 
 Commands:
   add    Adds a new alias.
