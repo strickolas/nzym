@@ -23,7 +23,7 @@ func Call(args []string) {
 	}
 
 	tokens = append(strings.Split(command, " "), tokens[index:len(tokens)]...)
-	command = "#!/bin/basasdfh\n" + strings.Join(tokens, " ") + "\n"
+	command = "#!/bin/bash\n" + strings.Join(tokens, " ") + "\n"
 	err := ioutil.WriteFile("/tmp/nzym_command.sh", []byte(command), 0644)
 	if err != nil {
 		log.Fatal(err)

@@ -58,6 +58,7 @@ Adds an Nzym Alias. Use single quotes to pass verbatim arguments to Nzym.
 			Fatal("nzym: Did not write alias.")
 		}
 	}
+
 	// Marshal the map and write it out!
 	nza[alias] = command
 	d, err := yaml.Marshal(&nza)
