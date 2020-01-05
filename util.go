@@ -19,9 +19,9 @@ func Fatal(s string) {
 }
 
 // GetConfig returns the unmarshaled contents of config.yml
-func GetConfig() map[string]string {
+func GetConfig(nzymrcPath string) map[string]string {
 	// Read contents of config file.
-	config, err := ioutil.ReadFile("../../nzym.yml")
+	config, err := ioutil.ReadFile(nzymrcPath)
 	if err != nil {
 		Fatal("nzym: unable to locate \"nzym.yml\".")
 	}

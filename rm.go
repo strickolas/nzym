@@ -7,9 +7,17 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-// Rm removes an alias from nzym.yml.
-func Rm(args []string) {
-	nza := GetConfig()
+// Rm removes an alias from nzymyml.
+func Rm(args []string, nzymrcPath string) {
+	usage := `
+Usage: nzym rm nz
+	
+Removes an Nzym Alias. Use single quotes to pass verbatim arguments to Nzym.
+`
+	if len(Clean(strings.Join(args, " "))) == 0 {
+		Fatal(usage)
+	}
+	nza := GetConfig(nzymrcPath)
 	alias := strings.Join(args, " ")
 	if _, ok := nza[alias]; ok {
 		delete(nza, alias)
@@ -21,7 +29,7 @@ func Rm(args []string) {
 	if err != nil {
 		Fatal("nzym: " + err.Error())
 	}
-	err = WriteStringToFile("../../nzym.yml", string(d))
+	err = WriteStringToFile(nzymrcPath, string(d))
 	if err != nil {
 		Fatal("nzym: " + err.Error())
 	}

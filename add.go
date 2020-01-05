@@ -8,10 +8,10 @@ import (
 )
 
 // Add adds a new nzym alias.
-func Add(args []string) {
+func Add(args []string, nzymrcPath string) {
 	usage := `
-Usage:	nzym add nz a TO $(which nzym) add
-        nzym add $(which nzym) AS nz a
+Usage:	nzym add nz a DOES $(which nzym) add
+        nzym add $(which nzym) add AS nz a
 		
 Adds an Nzym Alias. Use single quotes to pass verbatim arguments to Nzym.
 `
@@ -20,17 +20,17 @@ Adds an Nzym Alias. Use single quotes to pass verbatim arguments to Nzym.
 	}
 	line := strings.Join(args, " ")
 	var alias, command string
-	nza := GetConfig()
+	nza := GetConfig(nzymrcPath)
 
-	containsTO := strings.Contains(line, " TO ")
+	containsDOES := strings.Contains(line, " DOES ")
 	containsAS := strings.Contains(line, " AS ")
 
-	if containsTO && containsAS {
+	if containsDOES && containsAS {
 		// ambiguous statement
 		Fatal(usage)
-	} else if containsTO {
-		// <alias> TO <command>
-		args = strings.Split(line, "TO")
+	} else if containsDOES {
+		// <alias> DOES <command>
+		args = strings.Split(line, "DOES")
 		alias, command = Clean(args[0]), Clean(args[1])
 		if len(args) != 2 {
 			Fatal(usage)
@@ -65,7 +65,7 @@ Adds an Nzym Alias. Use single quotes to pass verbatim arguments to Nzym.
 	if err != nil {
 		Fatal("nzym: " + err.Error())
 	}
-	err = WriteStringToFile("../../nzym.yml", string(d))
+	err = WriteStringToFile(nzymrcPath, string(d))
 	if err != nil {
 		Fatal("nzym: " + err.Error())
 	}

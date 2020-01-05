@@ -1,6 +1,0 @@
-#!/bin/bash
-./main $@
-if [ -f /tmp/nzym_command.sh ]; then
-    sh /tmp/nzym_command.sh
-    rm /tmp/nzym_command.sh
-fi

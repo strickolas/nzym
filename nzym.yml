@@ -1,3 +1,0 @@
-dc: docker container ls
-di: $(which docker) images
-dv: $(which docker) volume
