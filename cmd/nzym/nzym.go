@@ -10,6 +10,12 @@ import (
 func main() {
 	args := os.Args[1:]
 	path := os.ExpandEnv("/home/$USER/.nzymrc")
+	if !nzym.FileExists(path) {
+		_, err := os.Create(path)
+		if err != nil {
+			nzym.Fatal("nzym: " + err.Error())
+		}
+	}
 	if len(args) == 0 {
 		help()
 	} else if args[0] == "add" {

@@ -1,6 +1,25 @@
 # nzym
 A command line tool that makes it easy to digest 
-scripts!
+scripts for Unix based systems!
+
+# Installation
+1. Download zip file from Git.
+2. Unzip.
+3. Navigate to /nzym/cmd/nzym
+4. In your terminal, type `go build nzym.go`
+5. Next, type `mv ./nzym /usr/bin/`
+6. Start using Nzym.
+
+```bash
+cd Downloads
+unzip nzym-master.zip
+cd nzym-master/cmd/nzym
+go build nzym.go
+sudo mv ./nzym /usr/bin/
+```
+
+
+# Examples
 
 ```bash
 # nzym add <alias> DOES <command>.
