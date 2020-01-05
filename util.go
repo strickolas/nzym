@@ -74,3 +74,12 @@ func GetConfirmation(prompt, retry string) bool {
 	fmt.Println()
 	return false
 }
+
+// FileExists checks if the file exists and if its not a dir.
+func FileExists(filename string) bool {
+	info, err := os.Stat(filename)
+	if os.IsNotExist(err) {
+		return false
+	}
+	return !info.IsDir()
+}
