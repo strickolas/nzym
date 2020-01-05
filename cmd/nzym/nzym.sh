@@ -1,1 +1,0 @@
-(./main $@) && sh /tmp/nzym_command.sh && (rm /tmp/nzym_command.sh)

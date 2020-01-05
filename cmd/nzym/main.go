@@ -9,26 +9,21 @@ import (
 
 func main() {
 	args := os.Args[1:]
+	path := os.ExpandEnv("/home/$USER/.nzymrc")
 	if len(args) == 0 {
 		help()
 	} else if args[0] == "add" {
-		nzym.Add(args[1:])
+		nzym.Add(args[1:], path)
 	} else if args[0] == "rm" {
-		rm(args[1:])
+		nzym.Rm(args[1:], path)
 	} else if args[0] == "mv" {
-		mv(args[1:])
+		nzym.Mv(args[1:], path)
 	} else if args[0] == "ls" {
-		ls(args[1:])
+		nzym.Ls(args[1:], path)
 	} else {
-		nzym.Call(args)
+		nzym.Call(args, path)
 	}
 }
-
-func rm(args []string) {}
-
-func mv(args []string) {}
-
-func ls(args []string) {}
 
 func help() {
 	fmt.Println(
