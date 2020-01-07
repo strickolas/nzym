@@ -32,7 +32,10 @@ func GetConfig(nzymrcPath string) map[string]string {
 	if err != nil {
 		Fatal("nzym: unable to read \"nzym.yml\".")
 	}
-	return nzymAlises
+	if nzymAlises != nil {
+		return nzymAlises
+	}
+	return make(map[string]string)
 }
 
 // WriteStringToFile writes the string s to file
